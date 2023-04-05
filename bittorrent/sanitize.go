@@ -19,11 +19,7 @@ func SanitizeAnnounce(r *AnnounceRequest, maxNumWant, defaultNumWant uint32) err
 		return ErrInvalidPort
 	}
 
-	if !r.NumWantProvided {
-		r.NumWant = defaultNumWant
-	} else if r.NumWant > maxNumWant {
-		r.NumWant = maxNumWant
-	}
+	r.NumWant = defaultNumWant
 
 	if ip := r.Peer.IP.To4(); ip != nil {
 		r.Peer.IP.IP = ip
@@ -35,8 +31,7 @@ func SanitizeAnnounce(r *AnnounceRequest, maxNumWant, defaultNumWant uint32) err
 	}
 
 	log.Debug("sanitized announce", r, log.Fields{
-		"maxNumWant":     maxNumWant,
-		"defaultNumWant": defaultNumWant,
+		"NumWant": r.NumWant,
 	})
 	return nil
 }
